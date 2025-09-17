@@ -5,7 +5,7 @@ from random import randint
 
 # Genearl Setup
 pygame.init()
-Window_Width , Window_Height = 1280 , 660
+Window_Width , Window_Height = 800 , 600
 display_surface = pygame.display.set_mode((Window_Width , Window_Height))
 pygame.display.set_caption('SPACE SHOOTER')
 running = True 
@@ -40,7 +40,17 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    
+
+    #input
+    # print(pygame.mouse.get_pressed())
+    keys = pygame.key.get_pressed()
+    player_direction.x = int(keys[pygame.K_RIGHT]) - int(keys[pygame.K_LEFT])
+    player_direction.y = int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP]) 
+    player_direction = player_direction.normalize() if player_direction else player_direction
+    # In the above LOC is wriiten as when we move diagonaly the speed is 426 but while moving up/down or right/left it is 300 to make the diagonal speed equal to basic movement speed we added i the above line 
+    player_rect.center += player_direction * player_speed * dt
+    print(player_direction)
+
     # Draw the game
     display_surface.fill('darkgray') 
     for pos in star_pos:
